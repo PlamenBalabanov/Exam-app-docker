@@ -24,9 +24,12 @@ function App() {
   };
 
   const handleNext = () => {
+    // Move to the next question and clear any selected answer
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setShowAnswer(false);
+
+      // Clear any selected radio button for the next question
       const selectedAnswer = document.querySelector('input[name="answer"]:checked');
       if (selectedAnswer) {
         selectedAnswer.checked = false;
@@ -62,17 +65,12 @@ function App() {
             </div>
           ))}
         </div>
+        {showAnswer && <div className="explanation">{q.explanation}</div>}
         <div className="controls">
           {!showAnswer && <button onClick={handleReveal}>Reveal Answer</button>}
           {showAnswer && <button onClick={handleNext}>Next Question</button>}
         </div>
       </div>
-      {showAnswer && (
-        <div className="explanation-box">
-          <h3>Explanation:</h3>
-          <p>{q.explanation}</p>
-        </div>
-      )}
     </div>
   );
 }
