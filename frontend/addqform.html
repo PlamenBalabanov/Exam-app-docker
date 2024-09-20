@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Question</title>
+</head>
+<body>
+    <h1>Add a New Question</h1>
+    <form id="add-question-form">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question" required>
+        
+        <label for="options">Options (comma-separated):</label>
+        <input type="text" id="options" name="options" required>
+        
+        <label for="correctAnswer">Correct Answer (index, e.g., 0 for the first option):</label>
+        <input type="number" id="correctAnswer" name="correctAnswer" min="0" required>
+        
+        <label for="explanation">Explanation:</label>
+        <textarea id="explanation" name="explanation" required></textarea>
+        
+        <button type="submit">Add Question</button>
+    </form>
+
+    <script>
+        document.getElementById('add-question-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const question = document.getElementById('question').value;
+            const options = document.getElementById('options').value.split(',');
+            const correctAnswer = parseInt(document.getElementById('correctAnswer').value);
+            const explanation = document.getElementById('explanation').value;
+
+            const data = {
+                question,
+                options,
+                correctAnswer,
+                explanation
+            };
+
+            fetch('http://192.168.88.234:5000/questions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Question added successfully!');
+                document.getElementById('add-question-form').reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to add question.');
+            });
+        });
+    </script>
+</body>
+</html>
