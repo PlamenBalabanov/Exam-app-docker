@@ -36,6 +36,8 @@ function App() {
     }
   };
 
+  const progressPercentage = (currentQuestion / questions.length) * 100;
+
   if (questions.length === 0) return <div>Loading...</div>;
   if (quizEnded) return (
     <div className="quiz-container">
@@ -50,16 +52,21 @@ function App() {
 
   return (
     <div className="quiz-container">
+      <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
       <div className="question-box">
         <h1>CCNA Practice Quiz</h1>
         <h2>Question {currentQuestion + 1} of {questions.length}</h2>
         <p>{q.question}</p>
-        <div className="options">
-          {q.options.map((option, index) => (
-            <div key={index} className={`option ${showAnswer && index === q.correctAnswer ? 'correct' : showAnswer && document.querySelector(`input[value="${index}"]`)?.checked ? 'wrong' : ''}`}>
-              <input type="radio" id={`option${index}`} name="answer" value={index} disabled={showAnswer} />
-              <label htmlFor={`option${index}`}>{option}</label>
-            </div>
+          <div className="options">
+    {q.options.map((option, index) => (
+      <div 
+        key={index} 
+        className={`option ${showAnswer && index === q.correctAnswer ? 'correct' : showAnswer && document.querySelector(`input[value="${index}"]`)?.checked ? 'wrong' : ''}`} 
+        onClick={() => !showAnswer && document.querySelector(`input[value="${index}"]`).click()} // Clicks the radio button when the div is clicked
+      >
+        <input type="radio" id={`option${index}`} name="answer" value={index} disabled={showAnswer} />
+        <label htmlFor={`option${index}`}>{option}</label>
+      </div>
           ))}
         </div>
         <div className="controls">

@@ -97,3 +97,11 @@ button:hover {
   }
 }
 
+
+.progress-bar {
+  height: 10px;
+  background-color: #007bff;
+  transition: width 0.3s;
+  border-radius: 5px;
+  margin-bottom: 20px; /* Space between progress bar and question box */
+}
